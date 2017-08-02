@@ -120,12 +120,7 @@ func (t *AdditionSubstraction) Invoke(stub shim.ChaincodeStubInterface, function
 	} else if function == "init" {
 		fmt.Printf("Function is init")
 		return t.Init(stub, function, args)
-	} else if function == "delete" {
-		// Deletes an entity from its state
-		fmt.Printf("Function is delete")
-		return t.delete(stub, args)
-	}
-
+	} 
 	return nil, errors.New("Received unknown function invocation")
 }
 
@@ -140,12 +135,7 @@ func (t* AdditionSubstraction) Run(stub shim.ChaincodeStubInterface, function st
 	} else if function == "init" {
 		fmt.Printf("Function is init")
 		return t.Init(stub, function, args)
-	} else if function == "delete" {
-		// Deletes an entity from its state
-		fmt.Printf("Function is delete")
-		return t.delete(stub, args)
-	}
-
+	} 
 	return nil, errors.New("Received unknown function invocation")
 }
 
