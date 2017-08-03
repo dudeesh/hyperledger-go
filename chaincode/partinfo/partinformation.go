@@ -205,7 +205,7 @@ func (t *PartInformation) signbyAssignee(stub shim.ChaincodeStubInterface, args 
 	}
 	
 	// Delete the key from the state in ledger
-	assignee, err := stub.DelState(key)
+	err = stub.DelState(key)
 	if err != nil {
 		return nil, errors.New("Failed to delete state")
 	}
