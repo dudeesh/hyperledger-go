@@ -131,7 +131,7 @@ func (t *ProductStore) addProduct(stub shim.ChaincodeStubInterface, args []strin
 	if err != nil {
 		return nil, err
 }
-return bytes, nil
+return nil, nil
 }
 
 func (t *ProductStore) readProduct(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
