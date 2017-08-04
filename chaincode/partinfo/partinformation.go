@@ -60,9 +60,9 @@ func (t *PartInformation) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return t.write(stub, args)
 	} else if function == "addpartInformation" {
 		return t.addpartInformation(stub, args)
-	}else if function == "addAssignee" {
+	} else if function == "addAssignee" {
 		return t.addAssignee(stub, args)
-	}else if function == "signbyAssignee" {
+	} else if function == "signbyAssignee" {
 		return t.signbyAssignee(stub, args)
 	}
 	fmt.Println("invoke did not find func: " + function)
@@ -79,9 +79,9 @@ func (t *PartInformation) Query(stub shim.ChaincodeStubInterface, function strin
 		return t.read(stub, args)
 	} else if function == "readpartInformation" {
 		return t.readpartInformation(stub, args)
-	}else if function == "readAssigneeInformation" {
+	} else if function == "readAssigneeInformation" {
 		return t.readAssigneeInformation(stub, args)
-	}else if function == "readAssigneeStatus" {
+	} else if function == "readAssigneeStatus" {
 		return t.readAssigneeStatus(stub, args)
 	}
 	fmt.Println("query did not find func: " + function)
@@ -164,11 +164,12 @@ func (t *PartInformation) addAssignee(stub shim.ChaincodeStubInterface, args []s
 		return nil, errors.New("Incorrect Number of arguments.Expecting 4 for addAssignee")
 	}
 	id, err := strconv.ParseFloat(args[0], 64)
-	da, err := strconv.ParseBool(args[2])
+	si, err := strconv.ParseBool(args[1])
+	da, err := strconv.ParseFloat(args[2], 64)
 
 	assign := Assigneeinfo{
 		UserID:   id,
-		IsSigned: args[1],
+		IsSigned: si,
 		SignedDate: da,
 		Status: args[3],
 	}
@@ -180,7 +181,7 @@ func (t *PartInformation) addAssignee(stub shim.ChaincodeStubInterface, args []s
 		return nil, errors.New("Error marshaling assign")
 	}
 
-	err = stub.PutState(assign.UserID, bytes)
+	err = stub.PutState(args[0], bytes)
 	if err != nil {
 		return nil, err
 }
@@ -206,11 +207,12 @@ func (t *PartInformation) signbyAssignee(stub shim.ChaincodeStubInterface, args 
 	}
 	
 	id, err := strconv.ParseFloat(args[0], 64)
-	da, err := strconv.ParseBool(args[2])
+	si, err := strconv.ParseBool(args[1])
+	da, err := strconv.ParseFloat(args[2], 64)
 
 	assign := Assigneeinfo{
 		UserID:   id,
-		IsSigned: args[1],
+		IsSigned: si,
 		SignedDate: da,
 		Status: args[3],
 	}
@@ -222,11 +224,11 @@ func (t *PartInformation) signbyAssignee(stub shim.ChaincodeStubInterface, args 
 		return nil, errors.New("Error marshaling assign")
 	}
 
-	err = stub.PutState(assign.UserID, bytes)
+	err = stub.PutState(args[0], bytes)
 	if err != nil {
 		return nil, err
 }
-return nil, nil
+return assignee, nil
 }
 
 func (t *PartInformation) readpartInformation(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
@@ -267,7 +269,7 @@ func (t *PartInformation) readAssigneeInformation(stub shim.ChaincodeStubInterfa
 	return bytes, nil
 }
 
-func (t *PartInformation) readAssigneeStatus(stub shim.ChaincodeStubInterface, args []string) (bool, error) {
+func (t *PartInformation) readAssigneeStatus(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	fmt.Println("read() is running")
 
 	if len(args) != 1 {
@@ -288,8 +290,8 @@ func (t *PartInformation) readAssigneeStatus(stub shim.ChaincodeStubInterface, a
 	json.Unmarshal(bytes, &res)
 	if res.IsSigned == true{
 		
-		return true, nil				//all stop a marble by this name exists
+		return bytes, nil				//all stop a marble by this name exists
 	}
 	
-	return false, nil
+	return bytes, nil
 }
