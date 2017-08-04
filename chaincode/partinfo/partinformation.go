@@ -25,7 +25,7 @@ type PartInfo struct {
 type Assigneeinfo struct {
 	UserID float64 `json:"userID"`
 	IsSigned   bool  `json:"isSigned"`
-	SignedDate float64 `json:"signedDate"`
+	SignedDate string `json:"signedDate"`
 	Status   string  `json:"status"`
 	
 }
