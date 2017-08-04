@@ -165,12 +165,11 @@ func (t *PartInformation) addAssignee(stub shim.ChaincodeStubInterface, args []s
 	}
 	id, err := strconv.ParseFloat(args[0], 64)
 	si, err := strconv.ParseBool(args[1])
-	da, err := strconv.ParseFloat(args[2], 64)
 
 	assign := Assigneeinfo{
 		UserID:   id,
 		IsSigned: si,
-		SignedDate: da,
+		SignedDate: args[2],
 		Status: args[3],
 	}
 	
@@ -208,12 +207,11 @@ func (t *PartInformation) signbyAssignee(stub shim.ChaincodeStubInterface, args 
 	
 	id, err := strconv.ParseFloat(args[0], 64)
 	si, err := strconv.ParseBool(args[1])
-	da, err := strconv.ParseFloat(args[2], 64)
 
 	assign := Assigneeinfo{
 		UserID:   id,
 		IsSigned: si,
-		SignedDate: da,
+		SignedDate: args[2],
 		Status: args[3],
 	}
 	
